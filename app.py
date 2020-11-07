@@ -51,7 +51,7 @@ def login():
                     return redirect(url_for('superadmin'))
 
                 if session['desig'] == 'Head of Department':
-                    return render_template('hod/ColBranchAdmin.html')
+                    return redirect(url_for('headofDepartment'))
 
                 if session['desig'] == 'Staff Member':
                     return redirect(url_for('staffMember'))  
@@ -154,6 +154,7 @@ def updatBranch():
         flash("Data Updated Successfully", "success")
         mysql.connection.commit()
         return redirect(url_for('newBranch'))
+
 
 #HOD page       
 @app.route('/headofDepartment', methods=['GET'])

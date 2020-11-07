@@ -158,7 +158,7 @@ def updatBranch():
 #HOD page       
 @app.route('/headofDepartment', methods=['GET'])
 def headofDepartment():
-    return render_template('hod/colBranchAdmin.html')
+    return render_template('superadmin/colBranchAdmin.html')
 
 #newDepartmentAllDetails page
 @app.route('/newDepartment', methods=['GET', 'POST'])

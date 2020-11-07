@@ -156,7 +156,7 @@ def updatBranch():
         return redirect(url_for('newBranch'))
 
 #HOD page       
-@app.route('/hod', methods=['GET', 'POST'])
+@app.route('/hod', methods=['GET'])
 def hod():
     return render_template('hod/colBranchAdmin.html')
 

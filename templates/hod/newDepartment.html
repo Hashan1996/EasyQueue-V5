@@ -49,7 +49,8 @@
           <a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block" style="font-size: medium;">
-          <a href="{{ url_for('headofDepartment') }}" class="nav-link"><i class="fas fa-home"></i>&nbsp;&nbsp;<b>Home</b></a>
+          <a href="{{ url_for('headofDepartment') }}" class="nav-link"><i
+              class="fas fa-home"></i>&nbsp;&nbsp;<b>Home</b></a>
         </li>
 
         </li>
@@ -120,10 +121,11 @@
         </nav>
       </div>
     </aside>
-    
+
     <div class="content-wrapper" style="padding-top: 20PX;">
-      <script type="text/javascript">window.setTimeout("document.getElementById('successMessage').style.display='none';", 5000); </script>
-      <div id= "successMessage" class="container">
+      <script
+        type="text/javascript">window.setTimeout("document.getElementById('successMessage').style.display='none';", 5000); </script>
+      <div id="successMessage" class="container">
         {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
 
@@ -226,7 +228,7 @@
                 <div class="col-sm-6">
                   <h4 class="m-0 text-dark" style="font-size: large; margin-top:10%;"> <b>Department Update</b></h4>
                 </div>
-    
+
               </div>
             </div>
           </div>

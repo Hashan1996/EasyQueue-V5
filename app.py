@@ -110,7 +110,7 @@ def register():
         account = cursor.fetchone()
         # If account exists show error and validation checks
         if account:
-            flash ("Account already exists!", "danger")
+            flash ("Account Already Exists!", "danger")
             return render_template('login/register.html')
 
         else:
@@ -121,13 +121,13 @@ def register():
             session['email'] = email
             return redirect(url_for("login"))
 
-
+# 1. SUPER ADMIN
 #superadmin page
 @app.route('/superadmin', methods=['GET', 'POST'])
 def superadmin():
     return render_template('superadmin/index.html')
 
-#newBranchAllDetails page
+#Super Admin newBranchAllDetails page
 @app.route('/newBranch', methods=['GET', 'POST'])
 def newBranch():
     cur = mysql.connection.cursor()
@@ -136,164 +136,6 @@ def newBranch():
         branchDetails = cur.fetchall()
         return render_template('superadmin/newBranch.html', branchDetails=branchDetails)
     return render_template('superadmin/newBranch.html')
-
-#updatBranch
-@app.route('/updatBranch',methods=['POST','GET'])
-def updatBranch():
-
-    if request.method == 'POST':
-        inputBranchCode = request.form['inputBranchCode']
-        inputBranchName = request.form['inputBranchName']
-        inputBranchPhnNo = request.form['inputBranchPhnNo']
-        cursor = mysql.connection.cursor()
-        cursor.execute("""
-               UPDATE tb_branch 
-               SET branch_code=%s, branch_name=%s, branch_MobileNo =%s
-               WHERE branch_code=%s
-            """, (inputBranchCode, inputBranchName, inputBranchPhnNo,inputBranchCode))
-        flash("Data Updated Successfully", "success")
-        mysql.connection.commit()
-        return redirect(url_for('newBranch'))
-
-
-#HOD page       
-@app.route('/headofDepartment', methods=['GET'])
-def headofDepartment():
-    return render_template('hod/ColBranchAdmin.html')
-
-
-#newDepartmentAllDetails page
-@app.route('/newDepartment', methods=['GET', 'POST'])
-def newDepartment():
-    cur = mysql.connection.cursor()
-    resultValue = cur.execute("SELECT hod_scsm_user_id,dp_branch_code, department_code, department_name, department_PhoneNo FROM tb_department") 
-    if resultValue > 0:
-        departmentDetails = cur.fetchall()
-        return render_template('hod/newDepartment.html', departmentDetails=departmentDetails)
-    return render_template('hod/newDepartment.html')
-
-
-
-#updateDep
-@app.route('/updateDep',methods=['POST','GET'])
-def updateDep():
-
-    if request.method == 'POST':
-        inputDepartmentCode = request.form['inputDepartmentCode']
-        inputDepartmentName = request.form['inputDepartmentName']
-        inputDepartmentPhnNo = request.form['inputDepartmentPhnNo']
-        cursor = mysql.connection.cursor()
-        cursor.execute("""
-               UPDATE tb_department 
-               SET department_code=%s, department_name=%s, department_PhoneNo=%s
-               WHERE department_code=%s
-            """, (inputDepartmentCode, inputDepartmentName, inputDepartmentPhnNo,inputDepartmentCode))
-        flash("Data Updated Successfully", "success")
-        mysql.connection.commit()
-        return redirect(url_for('newDepartment'))
-
-#HOD New Department Save
-@app.route('/departmentSave', methods=['GET', 'POST'])
-def departmentSave():
-    if request.method == 'GET':
-        return render_template("hod/newDepartment.html")
-         
-    else:
-        inputDepartmentCode = request.form['inputDepartmentCode']
-        inputUserId = request.form['inputUserId']
-        inputBranchCode = request.form['inputBranchCode']
-        inputDepartmentName = request.form['inputDepartmentName']
-        inputDepartmentPhnNo = request.form['inputDepartmentPhnNo']
-
-          # Check if account exists using MySQL
-        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-        cursor.execute('SELECT * FROM tb_department WHERE department_code = %s', (inputDepartmentCode,))
-        account = cursor.fetchone()
-        # If account exists show error and validation checks
-        if account:
-            flash ("Deaprtment already exists!", "danger")
-            return render_template('hod/newDepartment.html')
-
-        else:
-            cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO tb_department(department_code, hod_scsm_user_id,dp_branch_code, department_name, department_PhoneNo) VALUES (%s, %s, %s, %s, %s)",(inputDepartmentCode, inputUserId, inputBranchCode, inputDepartmentName, inputDepartmentPhnNo, ))
-            mysql.connection.commit()
-            session['inputDepartmentCode'] = inputDepartmentCode
-            session['inputUserId'] = inputUserId
-            flash ("Department save successfully!", "success")
-            return redirect(url_for("newDepartment"))
-
-
-#staffmember page
-@app.route('/staffMember', methods=['GET', 'POST'])
-def staffMember():
-    return render_template('staffMember/ColBranchStaff.html')
-
-
-
-#Customer Report Genarate page STAFF
-@app.route('/customerCountDetails')
-def customerCountDetails():
-    cur = mysql.connection.cursor()
-    resultValue = cur.execute("SELECT * FROM tb_cusinfo") 
-    if resultValue > 0:
-        customerDetails = cur.fetchall()
-        return render_template('staffMember/CusReport.html', customerDetails=customerDetails)
-
-
-#Customer details Genarate page HOD
-@app.route('/HODcustomerReportDelaits')
-def HODcustomerReportDelaits():
-    cur = mysql.connection.cursor()
-    resultValue = cur.execute("SELECT CusInfo_id, date,day,cus_dp_code,timeRange,TtlCus FROM tb_cusinfo WHERE cus_dp_code = 'BORELLA_WIDTH_01' ") 
-    if resultValue > 0:
-        customerDetailsHOD = cur.fetchall()
-        return render_template('hod/HODcustomerReportDelaits.html', customerDetailsHOD=customerDetailsHOD)
-
-
-
-
-
-#Colombo Branch Infor
-@app.route('/colomboBranchInfo')
-def colomboBranchInfo():
-    cur = mysql.connection.cursor()
-    resultValue = cur.execute("SELECT sa_user_id, branch_code,  branch_name, branch_MobileNo FROM tb_branch WHERE district_name = 'Colombo'") 
-    if resultValue > 0:
-        oneBranchDetails = cur.fetchall()
-        return render_template('superadmin/oneBranchInfor.html', oneBranchDetails=oneBranchDetails)
-
-#Gampaha Branch Infor
-@app.route('/gampahaBranchInfo')
-def gampahaBranchInfo():
-    cur = mysql.connection.cursor()
-    resultValue = cur.execute("SELECT sa_user_id, branch_code,  branch_name, branch_MobileNo FROM tb_branch WHERE district_name = 'Gampaha'") 
-    if resultValue > 0:
-        oneBranchDetails = cur.fetchall()
-        return render_template('superadmin/oneBranchInfor.html', oneBranchDetails=oneBranchDetails)
-
-
-#Staff Member Customer Details Save
-@app.route('/customerDetailsSave', methods=['GET', 'POST'])
-def customerDetailsSave():
-    if request.method == 'GET':
-        return render_template("staffMember/ColBranchStaff.html")
-         
-    else:
-        inputuserid = request.form['inputuserid']
-        inputDate = request.form['inputDate']
-        inputDay = request.form['inputDay']
-        inputDepCode = request.form['inputDepCode']
-        inputTime = request.form['inputTime']
-        intCus = request.form['intCus']
-
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO tb_cusinfo(scsm_user_id, date,day,cus_dp_code,timeRange,TtlCus) VALUES (%s, %s, %s, %s, %s, %s)",(inputuserid, inputDate, inputDay, inputDepCode, inputTime, intCus,))
-        mysql.connection.commit()
-        session['inputuserid'] = inputuserid
-        session['inputDate'] = inputDate
-        return redirect(url_for("staffMember"))
-
 
 #Super Admin New Branch Save
 @app.route('/branchSave', methods=['GET', 'POST'])
@@ -323,20 +165,174 @@ def branchSave():
             mysql.connection.commit()
             session['inputBranchCode'] = inputBranchCode
             session['inputUserId'] = inputUserId
-            flash ("Branch save successfully!", "success")
+            flash ("Branch Details Saved Successfully!", "success")
             return redirect(url_for("newBranch"))
 
+#Super Admin update Branch
+@app.route('/updatBranch',methods=['POST','GET'])
+def updatBranch():
+
+    if request.method == 'POST':
+        inputBranchCode = request.form['inputBranchCode']
+        inputBranchName = request.form['inputBranchName']
+        inputBranchPhnNo = request.form['inputBranchPhnNo']
+        cursor = mysql.connection.cursor()
+        cursor.execute("""
+               UPDATE tb_branch 
+               SET branch_code=%s, branch_name=%s, branch_MobileNo =%s
+               WHERE branch_code=%s
+            """, (inputBranchCode, inputBranchName, inputBranchPhnNo,inputBranchCode))
+        flash("Branch Details Updated Successfully", "success")
+        mysql.connection.commit()
+        return redirect(url_for('newBranch'))
+
+#Super Admin Colombo Branch Infor
+@app.route('/colomboBranchInfo')
+def colomboBranchInfo():
+    cur = mysql.connection.cursor()
+    resultValue = cur.execute("SELECT sa_user_id, branch_code,  branch_name, branch_MobileNo FROM tb_branch WHERE district_name = 'Colombo'") 
+    if resultValue > 0:
+        oneBranchDetails = cur.fetchall()
+        return render_template('superadmin/oneBranchInfor.html', oneBranchDetails=oneBranchDetails)
+
+#Super Admin Gampaha Branch Infor
+@app.route('/gampahaBranchInfo')
+def gampahaBranchInfo():
+    cur = mysql.connection.cursor()
+    resultValue = cur.execute("SELECT sa_user_id, branch_code,  branch_name, branch_MobileNo FROM tb_branch WHERE district_name = 'Gampaha'") 
+    if resultValue > 0:
+        oneBranchDetails = cur.fetchall()
+        return render_template('superadmin/oneBranchInfor.html', oneBranchDetails=oneBranchDetails)
+
+    else:
+      return render_template('superadmin/oneBranchInfor.html')  
 
 
+# 2. Head of Department
+#HOD page       
+@app.route('/headofDepartment', methods=['GET'])
+def headofDepartment():
+    return render_template('hod/ColBranchAdmin.html')
 
 
+#HOD new Department All Details page
+@app.route('/newDepartment', methods=['GET', 'POST'])
+def newDepartment():
+    cur = mysql.connection.cursor()
+    resultValue = cur.execute("SELECT hod_scsm_user_id,dp_branch_code, department_code, department_name, department_PhoneNo FROM tb_department") 
+    if resultValue > 0:
+        departmentDetails = cur.fetchall()
+        return render_template('hod/newDepartment.html', departmentDetails=departmentDetails)
+    return render_template('hod/newDepartment.html')
 
-#CSV Download Button
+#HOD New Department Save
+@app.route('/departmentSave', methods=['GET', 'POST'])
+def departmentSave():
+    if request.method == 'GET':
+        return render_template("hod/newDepartment.html")
+         
+    else:
+        inputDepartmentCode = request.form['inputDepartmentCode']
+        inputUserId = request.form['inputUserId']
+        inputBranchCode = request.form['inputBranchCode']
+        inputDepartmentName = request.form['inputDepartmentName']
+        inputDepartmentPhnNo = request.form['inputDepartmentPhnNo']
+
+          # Check if account exists using MySQL
+        cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cursor.execute('SELECT * FROM tb_department WHERE department_code = %s', (inputDepartmentCode,))
+        account = cursor.fetchone()
+        # If account exists show error and validation checks
+        if account:
+            flash ("Deaprtment Already Exists!", "danger")
+            return redirect(url_for('newDepartment'))
+
+        else:
+            cur = mysql.connection.cursor()
+            cur.execute("INSERT INTO tb_department(department_code, hod_scsm_user_id,dp_branch_code, department_name, department_PhoneNo) VALUES (%s, %s, %s, %s, %s)",(inputDepartmentCode, inputUserId, inputBranchCode, inputDepartmentName, inputDepartmentPhnNo, ))
+            mysql.connection.commit()
+            session['inputDepartmentCode'] = inputDepartmentCode
+            session['inputUserId'] = inputUserId
+            flash ("Department Details Saved Successfully!", "success")
+            return redirect(url_for("newDepartment"))
+
+#HOD update Dep
+@app.route('/updateDep',methods=['POST','GET'])
+def updateDep():
+
+    if request.method == 'POST':
+        inputDepartmentCode = request.form['inputDepartmentCode']
+        inputDepartmentName = request.form['inputDepartmentName']
+        inputDepartmentPhnNo = request.form['inputDepartmentPhnNo']
+        cursor = mysql.connection.cursor()
+        cursor.execute("""
+               UPDATE tb_department 
+               SET department_code=%s, department_name=%s, department_PhoneNo=%s
+               WHERE department_code=%s
+            """, (inputDepartmentCode, inputDepartmentName, inputDepartmentPhnNo,inputDepartmentCode))
+        flash("Department Details Updated Successfully!", "success")
+        mysql.connection.commit()
+        return redirect(url_for('newDepartment'))
+
+
+#HOD Customer details Genarate page 
+@app.route('/HODcustomerReportDelaits')
+def HODcustomerReportDelaits():
+    cur = mysql.connection.cursor()
+    resultValue = cur.execute("SELECT CusInfo_id, date,day,cus_dp_code,timeRange,TtlCus FROM tb_cusinfo WHERE cus_dp_code = 'BORELLA_WIDTH_01' ") 
+    if resultValue > 0:
+        customerDetailsHOD = cur.fetchall()
+        return render_template('hod/HODcustomerReportDelaits.html', customerDetailsHOD=customerDetailsHOD)
+    
+    else:
+        return render_template('hod/HODcustomerReportDelaits.html')
+
+#HOD CSV Download Button
 @app.route('/csvDownload', methods=['GET', 'POST'])
 def csvDownload():
     flash ("Download Successfully!", "success")
     return redirect(url_for("HODcustomerReportDelaits"))
     #return render_template('hod/HODcustomerReportDelaits.html')
+
+
+#3. Dep Staff Member
+#staff member page
+@app.route('/staffMember', methods=['GET', 'POST'])
+def staffMember():
+    return render_template('staffMember/ColBranchStaff.html')
+
+
+#Staff Member Customer Details Save
+@app.route('/customerDetailsSave', methods=['GET', 'POST'])
+def customerDetailsSave():
+    if request.method == 'GET':
+        return render_template("staffMember/ColBranchStaff.html")
+         
+    else:
+        inputuserid = request.form['inputuserid']
+        inputDate = request.form['inputDate']
+        inputDay = request.form['inputDay']
+        inputDepCode = request.form['inputDepCode']
+        inputTime = request.form['inputTime']
+        intCus = request.form['intCus']
+
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO tb_cusinfo(scsm_user_id, date,day,cus_dp_code,timeRange,TtlCus) VALUES (%s, %s, %s, %s, %s, %s)",(inputuserid, inputDate, inputDay, inputDepCode, inputTime, intCus,))
+        mysql.connection.commit()
+        session['inputuserid'] = inputuserid
+        session['inputDate'] = inputDate
+        flash ("Department Counter Details Saved Successfully!", "success")
+        return redirect(url_for("staffMember"))
+
+
+#STAFF Customer Report Genarate page 
+@app.route('/customerCountDetails')
+def customerCountDetails():
+    cur = mysql.connection.cursor()
+    resultValue = cur.execute("SELECT * FROM tb_cusinfo") 
+    if resultValue > 0:
+        customerDetails = cur.fetchall()
+        return render_template('staffMember/CusReport.html', customerDetails=customerDetails)
 
 
 #HOD Customer Cout Prediction with ML

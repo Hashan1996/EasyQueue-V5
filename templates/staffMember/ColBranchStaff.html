@@ -54,7 +54,7 @@
   </nav>
 
  <aside class="main-sidebar sidebar-dark-primary elevation-4">
-  <a href="index3.html" class="brand-link">
+  <a href="#" class="brand-link">
     <img src="static/dist/img/eq.jpeg" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
          style="opacity: .8">
     <span class="brand-text font-weight-light">EasyQueue</span>
@@ -68,7 +68,7 @@
               <img src="../../../static/dist/img/avatar5.png" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
-              <a href="CCUserProfile.html" class="d-block">Mr.GY Perera</a>
+              <a href="#" class="d-block">Mr.GY Perera</a>
             </div>
         </div>
         <nav class="mt-2">
@@ -85,8 +85,24 @@
      </div>
 </aside>
 
-  <div class="content-wrapper">
-   
+  <div class="content-wrapper" style="padding-top: 20PX;">
+    <script type="text/javascript">window.setTimeout("document.getElementById('successMessage').style.display='none';", 5000); </script>
+      <div id= "successMessage" class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+
+        {% for category, message in messages %}
+
+        <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+          <span>{{ message }}</span>
+        </div>
+
+        {% endfor %}
+
+        {% endif %}
+        {% endwith %}
+      </div>
+      
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
@@ -219,7 +235,6 @@
 		
 	
       </div>
-    </div>
     
     </section>
 	
@@ -240,19 +255,9 @@
   </div>
 
 
-		
-        </div>
-	  </div>
-      </div>
-    
-    </div>
- 
-  </div>
-
-  <aside class="control-sidebar control-sidebar-dark">
-
-  </aside>
 </div>
+
+
 
 
 

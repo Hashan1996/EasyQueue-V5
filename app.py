@@ -31,37 +31,37 @@ def home():
 #UserLogin
 @app.route('/login', methods=["GET", "POST"])
 def login():
-     if request.method == "POST":
-         email = request.form['email']
-         password = request.form['password'].encode('utf-8')
+    if request.method == "POST":
+        email = request.form['email']
+        password = request.form['password'].encode('utf-8')
 
-         cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-         cur.execute("SELECT * FROM tb_regi WHERE email = %s", (email,))
-         user = cur.fetchone()
-         cur.close()
+        cur = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+        cur.execute("SELECT * FROM tb_regi WHERE email = %s", (email,))
+        user = cur.fetchone()
+        cur.close()
         
-         if len(user) > 0:
-             if bcrypt.hashpw(password, user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
-                 session['loggedin'] = True
-                 session['Fname'] = user['Fname']
-                 session['email'] = user['email']
-                 session['desig'] = user['desig']
+        if len(user) > 0:
+            if bcrypt.hashpw(password, user['password'].encode('utf-8')) == user['password'].encode('utf-8'):
+                session['loggedin'] = True
+                session['Fname'] = user['Fname']
+                session['email'] = user['email']
+                session['desig'] = user['desig']
 
-                 if session['desig'] == 'Super Admin':
-                     return redirect(url_for('superadmin'))
+                if session['desig'] == 'Super Admin':
+                    return redirect(url_for('superadmin'))
 
-                 if session['desig'] == 'Head of Department':
-                     return redirect(url_for('headofDepartment'))
+                if session['desig'] == 'Head of Department':
+                    return render_template('hod/ColBranchAdmin.html')
 
-                 if session['desig'] == 'Staff Member':
-                     return redirect(url_for('staffMember'))  
+                if session['desig'] == 'Staff Member':
+                    return redirect(url_for('staffMember'))  
 
-             else:
-                 flash ("Incorrect Password or Email !", "danger")
-                 return render_template("login/login.html")
+            else:
+                flash ("Incorrect Password or Email !", "danger")
+                return render_template("login/login.html")
 
-     else:
-         return render_template("login/login.html")
+    else:
+        return render_template("login/login.html")
                  
 #Password Forgot
 @app.route('/passwordForgot', methods=['GET', 'POST'])
@@ -158,7 +158,8 @@ def updatBranch():
 #HOD page       
 @app.route('/headofDepartment', methods=['GET'])
 def headofDepartment():
-    return render_template('hod/colBranchAdmin.html')
+    return render_template('hod/ColBranchAdmin.html')
+
 
 #newDepartmentAllDetails page
 @app.route('/newDepartment', methods=['GET', 'POST'])

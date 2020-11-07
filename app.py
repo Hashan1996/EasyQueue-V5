@@ -51,10 +51,10 @@ def login():
                      return redirect(url_for('superadmin'))
 
                  if session['desig'] == 'Head of Department':
-                    return redirect(url_for('headofDepartment'))
+                     return redirect(url_for('headofDepartment'))
 
                  if session['desig'] == 'Staff Member':
-                    return redirect(url_for('staffMember'))  
+                     return redirect(url_for('staffMember'))  
 
              else:
                  flash ("Incorrect Password or Email !", "danger")

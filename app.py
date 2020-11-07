@@ -50,7 +50,7 @@ def login():
                  if session['desig'] == 'Super Admin':
                      return redirect(url_for('superadmin'))
 
-                 if session['desig'] == 'HOD':
+                 if session['desig'] == 'Head of Department':
                     return redirect(url_for('hod'))
 
                  if session['desig'] == 'Staff Member':

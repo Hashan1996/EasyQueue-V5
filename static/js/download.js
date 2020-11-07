@@ -1,0 +1,9 @@
+$('#json').on('click',function(){
+    $("#example").tableHTMLExport({type:'json',filename:'report.json'});
+  })
+  $('#csv').on('click',function(){
+    $("#example").tableHTMLExport({type:'csv',filename:'report.csv'});
+  })
+  $('#pdf').on('click',function(){
+    $("#example").tableHTMLExport({type:'pdf',filename:'report.pdf'});
+  })

@@ -51,7 +51,7 @@ def login():
                      return redirect(url_for('superadmin'))
 
                  if session['desig'] == 'Head of Department':
-                    return redirect(url_for('hod'))
+                    return redirect(url_for('headofDepartment'))
 
                  if session['desig'] == 'Staff Member':
                     return redirect(url_for('staffMember'))  
@@ -156,8 +156,8 @@ def updatBranch():
         return redirect(url_for('newBranch'))
 
 #HOD page       
-@app.route('/hod', methods=['GET'])
-def hod():
+@app.route('/headofDepartment', methods=['GET'])
+def headofDepartment():
     return render_template('hod/colBranchAdmin.html')
 
 #newDepartmentAllDetails page

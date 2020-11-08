@@ -72,20 +72,13 @@ plt.xlabel('Week')
 plt.ylabel('Customer Count')
 #plt.show()
 
-# 4.1.4- Customer Count Vs Week Day
+# 4.1.4- Customer Count Vs TimeRangeInt
 ax = finalData.plot(x='TimeRangeInt', y='Customer Count', style='o')
 ax.locator_params(integer=True)
 plt.title('Customer Count Vs TimeRangeInt')
 plt.xlabel('TimeRangeInt')
 plt.ylabel('Customer Count')
 #plt.show()
-
-# 4.1.5 - correlation of variables
-#corr = finalData.corr()
-#print(corr)
-#sns.heatmap(corr)
-#plt.show()
-
 
 
 # 5. Split data into X and Y

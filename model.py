@@ -56,21 +56,21 @@ ax.locator_params(integer=True)
 plt.title('Customer Count Vs Year')
 plt.xlabel('Year')
 plt.ylabel('Customer Count')
-plt.show()
+#plt.show()
 
 # 4.1.2- Customer Count Vs Week Day
 finalData.plot(x='Month', y='Customer Count', style='o')
 plt.title('Customer Count Vs Month')
 plt.xlabel('Month')
 plt.ylabel('Customer Count')
-plt.show()
+#plt.show()
 
 # 4.1.3- Customer Count Vs Week Day
 finalData.plot(x='Week', y='Customer Count', style='o')
 plt.title('Customer Count Vs Week')
 plt.xlabel('Week')
 plt.ylabel('Customer Count')
-plt.show()
+#plt.show()
 
 # 4.1.4- Customer Count Vs Week Day
 ax = finalData.plot(x='TimeRangeInt', y='Customer Count', style='o')
@@ -78,7 +78,7 @@ ax.locator_params(integer=True)
 plt.title('Customer Count Vs TimeRangeInt')
 plt.xlabel('TimeRangeInt')
 plt.ylabel('Customer Count')
-plt.show()
+#plt.show()
 
 # 4.1.5 - correlation of variables
 #corr = finalData.corr()
@@ -153,12 +153,12 @@ decissionTree_regressor.fit(X, Y)
 importance = decissionTree_regressor.feature_importances_
 
 # Summarize feature importance
-for i,v in enumerate(importance):
-	print('Feature: %0d, Score: %.5f' % (i,v))
+#for i,v in enumerate(importance):
+	#print('Feature: %0d, Score: %.5f' % (i,v))
 
 # Plot feature importance
 pyplot.bar([x for x in range(len(importance))], importance)
-pyplot.show()
+#pyplot.show()
 
 
 # make predictions for test data

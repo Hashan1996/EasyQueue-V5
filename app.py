@@ -255,6 +255,7 @@ def departmentSave():
             session['inputUserId'] = inputUserId
             flash ("Department Details Saved Successfully!", "success")
             return redirect(url_for("newDepartment"))
+    return render_template("hod/newDepartment.html")
 
 #HOD update Dep
 @app.route('/updateDep',methods=['POST','GET'])

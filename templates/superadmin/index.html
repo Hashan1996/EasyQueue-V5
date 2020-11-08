@@ -28,7 +28,11 @@
             <a href="{{ url_for('logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;<b>Logout</b></a>
           </li>
       </ul>
-
+      <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
 
     </nav>
 

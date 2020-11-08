@@ -29,7 +29,11 @@
           <span class="brand-text font-weight-light"><b>EasyQueue Login</b> </span>
         </a>
 
-
+        <script type="text/javascript">
+          function preventBack() { window.history.forward(); }
+          setTimeout("preventBack()", 0);
+          window.onunload = function () { null };
+      </script>
 
         <form action="{{ url_for('login') }}" method="post">
           <!-- <div class="msg">{{ msg }}</div>  -->

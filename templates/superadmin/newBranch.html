@@ -57,7 +57,11 @@
           <a href="{{ url_for('logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;<b>Logout</b></a>
         </li>
       </ul>
-
+      <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
     </nav>
 
     <aside class="main-sidebar sidebar-dark-primary elevation-4" style="width: 260px;">
@@ -289,7 +293,7 @@
         
         
                                                 <label>Branch District Name:</label>
-                                                <input type="text" class="form-control" 
+                                                <input disabled type="text" class="form-control" 
                                                   value="{{branch.district_name}}">
         
         

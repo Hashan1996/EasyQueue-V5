@@ -65,6 +65,11 @@
       <li class="nav-item d-none d-sm-inline-block">
         <a href="{{ url_for('logout') }}" class="nav-link"><i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;<b>Logout</b></a>
       </li>
+       <script type="text/javascript">
+        function preventBack() { window.history.forward(); }
+        setTimeout("preventBack()", 0);
+        window.onunload = function () { null };
+    </script>
    </ul>
 
   
@@ -131,7 +136,6 @@
                 <table class="table" id="example">
                   <thead class="thead-dark">
                    <tr>
-                    <th> Customer Count ID </th>
                    <th> User ID </th>
                  <th> Date </th>
                  <th> Day </th>
@@ -142,7 +146,6 @@
                  </thead>
                  <tbody>
                   {% for customer in customerDetails %}
-                 <td>  {{customer.CusInfo_id}} </td>
                  <td>  {{customer.scsm_user_id}} </td>
                   <td> {{customer.date}} </td>
                   <td> {{customer.day}} </td>

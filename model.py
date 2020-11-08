@@ -32,8 +32,6 @@ df['Date'] = pd.to_datetime(df['Date'], dayfirst=True)
 df['Year'] = df.Date.dt.year
 df['Month'] = df.Date.dt.month
 df['Week'] = df.Date.dt.week
-# df['weekdayInt'] = df.Date.dt.dayofweek
-#df['DepCounterInt'] = df['Department Code'].replace(['BORELLA_WIDTH_01'], [1])
 df['Week Day'] = df['Day'].replace(['Monday', 'Tuesday','Wednesday','Thursday', 'Friday','Saturday'], [1, 2, 3, 4, 5, 6])
 df['TimeRangeInt'] = df['Time Range'].replace(['Morning', 'Evening'], [1, 2])
 
@@ -58,21 +56,21 @@ ax.locator_params(integer=True)
 plt.title('Customer Count Vs Year')
 plt.xlabel('Year')
 plt.ylabel('Customer Count')
-#plt.show()
+plt.show()
 
 # 4.1.2- Customer Count Vs Week Day
 finalData.plot(x='Month', y='Customer Count', style='o')
 plt.title('Customer Count Vs Month')
 plt.xlabel('Month')
 plt.ylabel('Customer Count')
-# plt.show()
+plt.show()
 
 # 4.1.3- Customer Count Vs Week Day
 finalData.plot(x='Week', y='Customer Count', style='o')
 plt.title('Customer Count Vs Week')
 plt.xlabel('Week')
 plt.ylabel('Customer Count')
-# plt.show()
+plt.show()
 
 # 4.1.4- Customer Count Vs Week Day
 ax = finalData.plot(x='TimeRangeInt', y='Customer Count', style='o')
@@ -80,12 +78,12 @@ ax.locator_params(integer=True)
 plt.title('Customer Count Vs TimeRangeInt')
 plt.xlabel('TimeRangeInt')
 plt.ylabel('Customer Count')
-# plt.show()
+plt.show()
 
 # 4.1.5 - correlation of variables
-corr = finalData.corr()
+#corr = finalData.corr()
 #print(corr)
-sns.heatmap(corr)
+#sns.heatmap(corr)
 #plt.show()
 
 
@@ -108,7 +106,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.33, random
 
 
 # 7. Evaluating Model (Accuracy & Mean Squared Error)
-print("*******************************************************")
+print("***********************************************************************")
 
 # 7.1- GaussianNB Algorithm
 # fit model on training data
@@ -122,10 +120,10 @@ accuracy = accuracy_score(y_test, gaussianNB_y_pred)
 print("GaussianNB Model Accuracy: %.2f%%" % (accuracy * 100.0))
 # MSE Computation 
 mse = mean_squared_error(y_test, gaussianNB_y_pred)
-print("GaussianNB Model MSE : % f" %(mse))
+print("GaussianNB Model Mean Squared  Error : % f" %(mse))
 
 
-print("*******************************************************")
+print("***********************************************************************")
 
 # 7.2- GradientBoostingClassifier Algorithm
 # fit model on training data
@@ -139,10 +137,10 @@ accuracy = accuracy_score(y_test, gradientBoostingClassifier_y_pred)
 print("GradientBoostingClassifier Model Accuracy: %.2f%%" % (accuracy * 100.0))
 # MSE Computation 
 mse = mean_squared_error(y_test, gradientBoostingClassifier_y_pred)
-print("GradientBoostingClassifier Model MSE : % f" %(mse))
+print("GradientBoostingClassifier Model Mean Squared  Error : % f" %(mse))
 
 
-print("*******************************************************")
+print("***********************************************************************")
 
 # 7.3- Decission Tree Algorithm
 # fit model on training data
@@ -150,33 +148,34 @@ decissionTree_regressor = DecisionTreeClassifier()
 decissionTree_regressor.fit(X, Y)
 
 # 7.3.1- Coefficients as Feature Importance of Decision Tree Algorithm
+
 # Get importance
 importance = decissionTree_regressor.feature_importances_
+
 # Summarize feature importance
 for i,v in enumerate(importance):
 	print('Feature: %0d, Score: %.5f' % (i,v))
+
 # Plot feature importance
 pyplot.bar([x for x in range(len(importance))], importance)
-#pyplot.show()
+pyplot.show()
 
 
 # make predictions for test data
 decissionTree_y_pred = decissionTree_regressor.predict(X_test)
-#predictions = [round(value) for value in y_pred]
 #evaluate model
 accuracy = accuracy_score(y_test, decissionTree_y_pred)
 print("Decission Tree Model Accuracy: %.2f%%" % (accuracy * 100.0))
 # MSE Computation 
 mse = mean_squared_error(y_test, decissionTree_y_pred)
-print("Decission Tree Model MSE : % f" %(mse))
+print("Decission Tree Model Mean Squared  Error : % f" %(mse))
 
 
-print("*******************************************************")
+print("***********************************************************************")
 
 # 8. Load the model to deployement
 pickle.dump(decissionTree_regressor, open('model.pkl', 'wb'))
 model = pickle.load(open('model.pkl', 'rb'))
 
 # 'Year', 'Month', 'Week', 'Week Day','DepCounterInt', 'TimeRangeInt'
-print(model.predict([[2019, 1, 1, 2, 1]]))
-#
+#print(model.predict([[2019, 1, 1, 2, 1]]))

@@ -58,7 +58,7 @@ plt.xlabel('Year')
 plt.ylabel('Customer Count')
 #plt.show()
 
-# 4.1.2- Customer Count Vs Week Day
+# 4.1.2- Customer Count Vs Month
 finalData.plot(x='Month', y='Customer Count', style='o')
 plt.title('Customer Count Vs Month')
 plt.xlabel('Month')
@@ -170,5 +170,4 @@ print("***********************************************************************")
 pickle.dump(decissionTree_regressor, open('model.pkl', 'wb'))
 model = pickle.load(open('model.pkl', 'rb'))
 
-# 'Year', 'Month', 'Week', 'Week Day','DepCounterInt', 'TimeRangeInt'
-#print(model.predict([[2019, 1, 1, 2, 1]]))
+

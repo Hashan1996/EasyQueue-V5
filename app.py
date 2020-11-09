@@ -157,7 +157,8 @@ def branchSave():
         # If account exists show error and validation checks
         if account:
             flash ("Branch already exists!", "danger")
-            return render_template('superadmin/newBranch.html')
+            return redirect(url_for("newBranch"))
+        
 
         else:
             cur = mysql.connection.cursor()
@@ -167,6 +168,8 @@ def branchSave():
             session['inputUserId'] = inputUserId
             flash ("Branch Details Saved Successfully!", "success")
             return redirect(url_for("newBranch"))
+
+    
 
 #Super Admin update Branch
 @app.route('/updatBranch',methods=['POST','GET'])
